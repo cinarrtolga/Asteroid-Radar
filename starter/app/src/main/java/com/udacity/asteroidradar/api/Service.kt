@@ -16,7 +16,8 @@ import retrofit2.http.Query
 internal annotation class StringAno
 
 @Target(
-    AnnotationTarget.FUNCTION, AnnotationTarget.PROPERTY_GETTER,
+    AnnotationTarget.FUNCTION,
+    AnnotationTarget.PROPERTY_GETTER,
     AnnotationTarget.PROPERTY_SETTER
 )
 @Retention()
@@ -29,6 +30,7 @@ private val retrofit = Retrofit.Builder()
     .build()
 
 interface AsteroidApiService {
+    //I did not use end date in here because it's already +7 days as a default.
     @StringAno
     @GET("neo/rest/v1/feed")
     suspend fun getMarsProperties(

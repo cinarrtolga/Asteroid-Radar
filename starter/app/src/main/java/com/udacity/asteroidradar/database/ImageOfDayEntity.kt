@@ -20,9 +20,9 @@ fun ImageOfDayEntity.asDomainModel(): ImageOfDayModel {
     return ImageOfDayModel(
         date = date,
         explanation = explanation,
-        hdUrl = hdUrl,
-        mediaType = mediaType,
-        serviceVersion = serviceVersion,
+        hdUrl = hdUrl ?: "",
+        mediaType = mediaType ?: "",
+        serviceVersion = serviceVersion ?: "",
         title = title,
         url = url
     )

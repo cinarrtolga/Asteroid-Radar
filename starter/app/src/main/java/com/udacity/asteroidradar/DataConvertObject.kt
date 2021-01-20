@@ -20,7 +20,7 @@ fun jsonToObject(jsonObject: JSONObject): MutableList<AsteroidModel> {
         /*We take asteroids for selected date via this method.*/
         val dayAsteroid = availableJson.getJSONArray(day)
 
-        if(dayAsteroid.length() > 0) {
+        if (dayAsteroid.length() > 0) {
             /*This loop will return each asteroid objects.*/
             for (i in 0 until dayAsteroid.length()) {
                 val currentAsteroid = dayAsteroid.getJSONObject(i)

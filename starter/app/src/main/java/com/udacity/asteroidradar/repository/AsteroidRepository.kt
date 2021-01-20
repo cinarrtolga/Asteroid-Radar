@@ -1,5 +1,6 @@
 package com.udacity.asteroidradar.repository
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
 import com.udacity.asteroidradar.Constants
@@ -7,7 +8,6 @@ import com.udacity.asteroidradar.api.AsteroidApi
 import com.udacity.asteroidradar.database.AsteroidsDatabase
 import com.udacity.asteroidradar.database.asDomainModel
 import com.udacity.asteroidradar.domain.AsteroidModel
-import com.udacity.asteroidradar.domain.ImageOfDayModel
 import com.udacity.asteroidradar.domain.asDatabaseModel
 import com.udacity.asteroidradar.jsonToObject
 import org.json.JSONObject
@@ -20,31 +20,37 @@ class AsteroidRepository(private val database: AsteroidsDatabase) {
             it.asDomainModel()
         }
 
-    val imageOfDay: LiveData<ImageOfDayModel> =
-        Transformations.map(database.asteroidDao.getImageOfDay()) {
-            it.asDomainModel()
-        }
+    val imageOfDay = Transformations.map(database.asteroidDao.getImageOfDay()) {
+        it?.asDomainModel()
+    }
 
     suspend fun refreshAsteroids() {
-        val asteroids: MutableList<AsteroidModel> =
-            jsonToObject(
-                JSONObject(
-                    AsteroidApi.retrofitService.getMarsProperties(
-                        getToday(),
-                        Constants.API_KEY
+        try {
+            val asteroids: MutableList<AsteroidModel> =
+                jsonToObject(
+                    JSONObject(
+                        AsteroidApi.retrofitService.getMarsProperties(
+                            getToday(),
+                            Constants.API_KEY
+                        )
                     )
                 )
-            )
 
-        database.asteroidDao.insertAll(*asteroids.asDatabaseModel())
+            database.asteroidDao.insertAll(*asteroids.asDatabaseModel())
+        } catch (ex: Exception) {
+            Log.i("warning", "For offline mode.")
+        }
     }
 
     suspend fun refreshImageOfDay() {
-        val imageOfDay =
-            AsteroidApi.retrofitService.getImageOfDay(Constants.API_KEY).asDatabaseModel()
+        try {
+            val imageOfDay =
+                AsteroidApi.retrofitService.getImageOfDay(Constants.API_KEY).asDatabaseModel()
 
-        database.asteroidDao.clearImageOfDayHistory()
-        database.asteroidDao.insertImageOfDay(imageOfDay)
+            database.asteroidDao.insertImageOfDay(imageOfDay)
+        } catch (ex: Exception) {
+            Log.i("warning", "For offline mode")
+        }
     }
 
     fun clearAsteroidHistory() {

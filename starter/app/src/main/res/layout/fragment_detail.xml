@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="asteroid"
             type="com.udacity.asteroidradar.domain.AsteroidModel" />
@@ -50,10 +51,10 @@
                         android:orientation="vertical">
 
                         <TextView
+                            style="@style/BoldLabelStyle"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="@string/close_approach_data_title"
-                            style="@style/BoldLabelStyle" />
+                            android:text="@string/close_approach_data_title" />
 
                         <TextView
                             android:id="@+id/close_approach_date"

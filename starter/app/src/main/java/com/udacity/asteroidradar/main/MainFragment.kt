@@ -31,14 +31,14 @@ class MainFragment : Fragment() {
         binding.asteroidRecycler.layoutManager = layoutManager
 
         viewModel.imageOfDay.observe(viewLifecycleOwner, Observer {
-            if (!it.url.isNullOrEmpty()) {
+            if (it != null) {
                 Picasso.with(requireContext()).load(it.url).into(binding.activityMainImageOfTheDay)
                 binding.activityMainImageOfTheDay.visibility = View.VISIBLE
             }
         })
 
         viewModel.asteroidList.observe(viewLifecycleOwner, Observer { it ->
-            if (it.isNotEmpty()) {
+            if (it != null) {
                 adapter = AsteroidAdapter(AsteroidAdapter.OnClickListener { asteroid ->
                     viewModel.currentAsteroid.value = asteroid
                 })
