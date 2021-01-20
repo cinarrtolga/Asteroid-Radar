@@ -33,6 +33,7 @@ class MainFragment : Fragment() {
         viewModel.imageOfDay.observe(viewLifecycleOwner, Observer {
             if (it != null) {
                 Picasso.with(requireContext()).load(it.url).into(binding.activityMainImageOfTheDay)
+                binding.activityMainImageOfTheDay.contentDescription = it.explanation
                 binding.activityMainImageOfTheDay.visibility = View.VISIBLE
             }
         })

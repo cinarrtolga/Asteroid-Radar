@@ -26,12 +26,12 @@ fun jsonToObject(jsonObject: JSONObject): MutableList<AsteroidModel> {
                 val currentAsteroid = dayAsteroid.getJSONObject(i)
 
                 val id = currentAsteroid.getLong("id")
-                val codeName = currentAsteroid.getString("name")
+                val codeName = currentAsteroid.optString("name")
 
                 /*Taking sub json object from current object. We included index as a 0 because it is single object*/
                 val closeApproachData =
                     currentAsteroid.getJSONArray("close_approach_data").getJSONObject(0)
-                val closeApproachDate = closeApproachData.getString("close_approach_date")
+                val closeApproachDate = closeApproachData.optString("close_approach_date")
 
                 val absoluteMagnitude = currentAsteroid.getDouble("absolute_magnitude_h")
                 val estimatedDiameter =
